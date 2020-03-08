@@ -366,3 +366,13 @@ body {
         display: none;
     }
 }
+
+
+/* mohammad edited */
+.remove,.remove:hover{
+    background-color: red;
+} 
+.py-2{
+    padding:6px 8px;
+}
+
