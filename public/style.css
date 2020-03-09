@@ -376,3 +376,32 @@ body {
     padding:6px 8px;
 }
 
+
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
+.fade-move {
+    transition: transform 1s;
+} 
+
+/* .active li */
+.active {
+    border-radius: 2px;
+    position: static;
+    background: rgb(187, 204, 240);
+    color: rgb(35, 35, 36);
+    margin:0px;
+    animation-name: example;
+    animation-duration: 2s;
+}
+
+@keyframes example {
+    0%   {margin-left:3px;}
+    50%  { margin-left:130px;}
+    100% { margin-left:3px;}
+  }

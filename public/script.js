@@ -8,19 +8,32 @@ new Vue({
         search: 'cat',
         lastSearch: '',
         loading: false,
+        addclass:0,
+        oldclass: -1,
     },
     methods:{
         addToCard: function (product) {
+
            let cartProduct =(this.card.filter(function(item){
                return  item.id == product.id;
             }));
             
             if(cartProduct.length){
                 //is is souble
-                this.card[this.card.indexOf(product)].qty++;
+
+                setTimeout(() => {
+                    
+                    this.card[this.card.indexOf(product)].changed =  false;
+                    this.card[this.card.indexOf(product)].qty++;
+                    
+                }, 2000);
+                this.card[this.card.indexOf(product)].changed =  true
+                
                 
             }else{
                 //if is no exist yet
+                
+                
                 product.qty++;
                 this.card.push(product);
             }
@@ -33,6 +46,7 @@ new Vue({
             this.total += product.price;
         },
         decreseQty: function (product) {
+
             if((this.card[this.card.indexOf(product)].qty) > 1){
                 this.card[this.card.indexOf(product)].qty--;
                 this.total -= product.price;
@@ -59,7 +73,6 @@ new Vue({
             
                 // get body data
                 this.lastSearch = this.search;
-                console.log(response.body)
                 
                 for (const key in  response.body) {
                         if ( response.body.hasOwnProperty(key)) {
@@ -77,8 +90,11 @@ new Vue({
                
             });
         
-        }
+        },
+    },
+    computed: {
         
+       
     },
     filters:{
         curency: function(price){
