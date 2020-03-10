@@ -1,4 +1,6 @@
-var LOAD_NUM = 4;
+
+setTimeout(() => {
+    var LOAD_NUM = 4;
 var watcher;
 new Vue({
     el: "#app",
@@ -75,6 +77,9 @@ new Vue({
             let path="/search?q=" + this.search.trim();
             // GET /someUrl
             this.$http.get(path).then(response => {
+                if(response.body == 'undefined'){
+                    this.loading = false;
+                }
                 this.dataCount = (response.body).length
                 this.results = response.body;
                 // this.appendResults();
@@ -131,6 +136,8 @@ new Vue({
     },
     created: function () {
         this.onSubmit();
+        window.document.body.style.backgroundImage="url()";
+
     },
     updated: function() {
         let sensor = document.querySelector('#product-list-bottom');
@@ -144,4 +151,6 @@ new Vue({
         }
     },
 });
+}, 3000);
+
 

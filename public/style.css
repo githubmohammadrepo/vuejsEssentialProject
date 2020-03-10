@@ -1,5 +1,11 @@
 /* Generic styling */
-
+body{
+    background-repeat: no-repeat;
+    background-size: 50% 60%;
+    background-origin: border-box;
+    background-position: center;
+    background-image: url(./images/buff.svg);
+}
 button:focus, input:focus {
     outline: none;
 }
@@ -404,4 +410,8 @@ body {
     0%   {margin-left:3px;}
     50%  { margin-left:130px;}
     100% { margin-left:3px;}
+  }
+
+  [v-cloak]{
+      display:none !important;
   }
