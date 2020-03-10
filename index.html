@@ -34,7 +34,7 @@
                     loading ...
                 </div>
                 <div v-else class="search-result">
-                    Found {{products.length}} results for search term <em>{{lastSearch}}</em>.
+                    Found {{dataCount}} results for search term <em>{{lastSearch}}</em>.
                 </div>
                 <div class="product" v-for="(product) in products" ::key="product.id">
                     <div>
@@ -48,6 +48,9 @@
                         <p class="product-price"><strong>{{product.price | curency}}</strong></p>
                         <button @click="addToCard(product)" class="add-to-card btn py-2 ">Add To Cad</button>
                     </div>
+                </div>
+                <div id="product-list-bottom">
+                    <div v-if="!results.length" >No More Item Found.</div>
                 </div>
             </div>
             <div class="cart">
@@ -86,6 +89,9 @@
 
     <!-- add vue-resource  -->
     <script src="./node_modules/vue-resource/dist/vue-resource.js"></script>
+
+    <!-- add scroll monitor library -->
+    <script src="./node_modules/scrollmonitor/scrollMonitor.js"></script>
 
     <!-- custome scripts -->
     <script type="text/javascript" src="public/script.js"></script>

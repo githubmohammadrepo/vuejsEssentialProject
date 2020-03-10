@@ -1,8 +1,10 @@
+var LOAD_NUM = 4;
+var watcher;
 new Vue({
     el: "#app",
     data: {
         total: 0,
-        products: [],
+        products: Array(),
         card:[],
         removeClass: false,
         search: 'cat',
@@ -10,6 +12,8 @@ new Vue({
         loading: false,
         addclass:0,
         oldclass: -1,
+        results: Array(),
+        dataCount:null
     },
     methods:{
         addToCard: function (product) {
@@ -66,23 +70,29 @@ new Vue({
         },
         onSubmit: function(e){
             this.products = [];
+            this.results = [];
             this.loading = true;
             let path="/search?q=" + this.search.trim();
             // GET /someUrl
             this.$http.get(path).then(response => {
-            
+                this.dataCount = (response.body).length
+                this.results = response.body;
+                // this.appendResults();
                 // get body data
                 this.lastSearch = this.search;
-                
-                for (const key in  response.body) {
-                        if ( response.body.hasOwnProperty(key)) {
-                            const element =  response.body[key];
-                            element.qty = 0;
-                            element.remove = false;
-                            this.products.push(element)
+                this.appendResults()    
+                // for (const key in  response.body) {
+                //     if ( response.body.hasOwnProperty(key)) {
+                       
+                //         const element =  response.body[key];
+                //         element.qty = 0;
+                //         element.remove = false;
+                //         this.products.push(element)
+                // // this.appendResults();
 
-                        }
-                }
+
+                //     }
+                // }
                 this.loading= false;
 
             }, response => {
@@ -91,6 +101,24 @@ new Vue({
             });
         
         },
+        appendResults: function(){
+            
+            if(this.results.length>LOAD_NUM){
+                let rem =(this.results.length) / LOAD_NUM;
+                if(rem>=2){
+                    LOAD_NUM=4;
+                }else{
+                    LOAD_NUM=this.results.length;
+                    
+                }
+                    let append=this.results.splice(
+                        0,LOAD_NUM
+                    )
+                    this.products = this.products.concat(append);
+                LOAD_NUM =4;
+            }
+            
+        }
     },
     computed: {
         
@@ -104,4 +132,16 @@ new Vue({
     created: function () {
         this.onSubmit();
     },
+    updated: function() {
+        let sensor = document.querySelector('#product-list-bottom');
+        watcher = scrollMonitor.create(sensor)
+        watcher.enterViewport(this.appendResults)   
+    },
+    beforeUpdate: function() {
+        if(watcher){
+            watcher.destroy();
+            watcher = null;
+        }
+    },
 });
+
